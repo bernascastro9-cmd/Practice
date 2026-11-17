@@ -467,7 +467,10 @@ function loadBankRaw(name){
  getAudio();
  const manifest=samplesManifest?Promise.resolve(samplesManifest):sampleIO.json('samples/manifest.json').then(m=>samplesManifest=m);
  return bankLoading[name]=Promise.all([manifest,sampleIO.buf('samples/'+name+'.mp3')]).then(([man,ab])=>decodeAudio(ab).then(buf=>{
-  const map=man[name];if(!map)throw new Error('missing bank '+name);
+  let map=man[name];if(!map)throw new Error('missing bank '+name);
+  // some browsers (Safari) keep the MP3 encoder's silent lead-in (~25 ms): find where the sound really starts and move every slice by it
+  {const d=buf.getChannelData(0),sr=buf.sampleRate;let i=0;while(i<d.length&&Math.abs(d[i])<.02)i++;
+   const pad=i/sr-.003;if(pad>.012&&pad<.06){const m2={};for(const k of Object.keys(map)){const e=map[k];m2[k]=[e[0]+pad,e[1],e[2]]}map=m2}}
   const bk={buf,map,gain:BANK_GAIN[name]||1,notes:{},vars:{},last:{}};
   for(const key of Object.keys(map)){const base=key.split('~')[0];(bk.vars[base]||(bk.vars[base]=[])).push(map[key])}
   if(!name.startsWith('kit_'))for(const base of Object.keys(bk.vars)){
@@ -544,6 +547,7 @@ function kitHit(key,vel,start,bus,gk){
 /* ---------- melodic instruments ---------- */
 // the damper falling back on the strings when a piano key is released (Salamander release recordings):
 // about 31 dB under the note, following the touch, a little softer after a long note
+let liveKey=false;   // a MIDI key: its damper noise plays at the real key-up, not at a planned note end
 function damperNoise(m,at,vel,held,bus){
  const bk=banks.piano_rel;if(!bk||samplesDisabled)return;
  sampleTone(bk,m,at,.35,Math.max(.01,vel*.028*Math.pow(10,-2*Math.min(held,6)/20)),bus,'piano',{rel:.12});
@@ -557,7 +561,7 @@ function piano(m,start,dur,vel,bus,timbre='grand'){
   const bk=timbre==='ep'?banks.ep:timbre==='organ'?banks.organ:timbre==='vibes'?banks.vibes:((m<39||m>81)&&banks.piano_ext?banks.piano_ext:banks.piano);   // piano_ext: the low and high ends of an 88-key keyboard
   if(bk){
    const opt=timbre==='organ'?{rel:.05}:timbre==='vibes'?{rel:.5,g:.185,filter:['highshelf',3500,-2]}:timbre==='ep'?{rel:.25}:timbre==='soft'?{rel:.25,filter:['highshelf',3500,-3.5]}:timbre==='bright'?{rel:.2,filter:['highshelf',3000,1]}:{rel:.22,filter:['highshelf',3500,-2.5]};
-   if(sampleTone(bk,m,start,dur,vel,bus,'piano',opt)){if(bk===banks.piano||bk===banks.piano_ext)damperNoise(m,start+dur,vel,dur,bus);return}
+   if(sampleTone(bk,m,start,dur,vel,bus,'piano',opt)){if(!liveKey&&(bk===banks.piano||bk===banks.piano_ext))damperNoise(m,start+dur,vel,dur,bus);return}
   }
  }
  if(timbre==='organ'){
@@ -1757,7 +1761,7 @@ let earBus=null;
   if(!banks.piano){loadBank('piano').catch(()=>{});return}
   if(held.has(m))release(m,c);sustained.delete(m);
   const g=c.createGain();g.connect(out(c));g.__on=c.currentTime;g.__vel=Math.max(.08,Math.pow(v/127,1.3));held.set(m,g);
-  curDyn=0;piano(m,c.currentTime+.005,8,Math.max(.08,Math.pow(v/127,1.3)),{channels:{piano:g},mem:{}},'grand');
+  curDyn=0;liveKey=true;try{piano(m,c.currentTime,8,Math.max(.08,Math.pow(v/127,1.3)),{channels:{piano:g},mem:{}},'grand')}finally{liveKey=false}   // start right away
  }
  function noteOff(m){const c=ctxOk();if(!c)return;if(pedal){sustained.add(m);return}release(m,c)}
  function onMessage(e){
@@ -1782,6 +1786,7 @@ let earBus=null;
 // the PDF reader (pdf-import.js) adds its songs through the same path as Import
 window.ppImportSongs=function(list){const res=addImported(list);save();renderSong();presentImport({...res,errors:[]});return res};
 window.ppStyleOptions=function(){const el=$('repStyle');return el?[...el.options].map(o=>[o.value,o.textContent]):[['swing','Jazz Swing']]};
+window.ppDebugBanks=()=>banks;   // for checking sound timing
 window.ppPiano={
  load(){if(samplesDisabled)return Promise.reject(new Error('samples disabled'));try{getAudio()}catch(e){return Promise.reject(e)}return loadBank('piano')},
  ready(){return !samplesDisabled&&!!banks.piano},
