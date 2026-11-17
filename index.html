@@ -767,6 +767,56 @@ $("reset").addEventListener("click",()=>{
   stopAlarm();stop();completedExercises.clear();index=0;remaining=plan[0].minutes*60;waiting=false;render();
 });
 
+// Free timer: click the time to count down any number of minutes for something outside the plan.
+// The plan's exercise keeps its place and its time; the free timer marks nothing as done.
+let free=null,freeInterval=null;
+function freeRender(){
+  if(!free)return;
+  $("clock").textContent=fmt(free.remaining);
+  $("exercise").textContent="Free timer";$("stepLabel").textContent="Extra";document.body.classList.add("pp-free");$("next").textContent="Back to plan";$("details").textContent=`${Math.round(free.total/60)} minutes`;
+  $("bar").style.width=`${100*(free.total-free.remaining)/free.total}%`;
+  $("sessionState").textContent=free.done?"Finished":free.running?"In progress":"Paused";
+  $("start").disabled=free.running||free.done;$("start").textContent=free.remaining===free.total?"Start":"Resume";
+  $("pause").disabled=!free.running;$("next").hidden=!free.done;$("finishEarly").disabled=false;
+  $("timerPanel").classList.toggle("alert",!!free.done);$("timerPanel").classList.add("free-mode");$("timerPanel").classList.remove("has-tool");
+}
+const planRender=render;render=function(){planRender();freeRender();if(clockEdit&&clockEdit.parentNode!==$("clock")){$("clock").replaceChildren(clockEdit);clockEdit.focus()}};
+function freeStop(){if(freeInterval)clearInterval(freeInterval);freeInterval=null;if(free)free.running=false}
+function freeStart(){
+  if(!free||free.running||free.done)return;
+  try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx.resume()}catch(e){}
+  free.running=true;let last=Date.now();
+  freeInterval=setInterval(()=>{const now=Date.now(),el=Math.floor((now-last)/1000);if(el>0){free.remaining=Math.max(0,free.remaining-el);last+=el*1000}
+    if(free.remaining===0){freeStop();free.done=true;render();startAlarm();return}render()},250);render();
+}
+function freeEnd(){freeStop();stopAlarm();free=null;$("timerPanel").classList.remove("free-mode","alert");document.body.classList.remove("pp-free");$("next").textContent="Next exercise";render()}
+// edit the time right where it is shown: "15" = 15 minutes, "15:30" = 15 min 30 s; Enter or clicking away starts it, Esc cancels
+let clockEdit=null;
+function parseTime(t){t=String(t).trim();let m=/^(\d{1,3})$/.exec(t);if(m)return Number(m[1])*60;m=/^(\d{1,3})[:.,h](\d{1,2})$/.exec(t);if(m&&Number(m[2])<60)return Number(m[1])*60+Number(m[2]);return null}
+function editClock(){
+  if(clockEdit)return;
+  const clock=$("clock"),shown=clock.textContent,box=clock.getBoundingClientRect();
+  const wasPlan=running,wasFree=!!(free&&free.running);   // Esc puts things back exactly as they were
+  stop();freeStop();stopAlarm();
+  const inp=document.createElement("input");inp.type="text";inp.inputMode="numeric";inp.value=shown;inp.className="clock-edit";inp.setAttribute("aria-label","Set a free timer: minutes, or minutes:seconds");
+  inp.style.cssText=`width:${Math.max(64,Math.round(box.width)+6)}px;font:inherit;color:inherit;letter-spacing:inherit;text-align:inherit;background:transparent;border:0;border-bottom:2px solid currentColor;padding:0;margin:0;outline:none;border-radius:0`;
+  clockEdit=inp;clock.replaceChildren(inp);inp.focus();inp.select();
+  let done=false;
+  const finish=ok=>{if(done)return;done=true;const secs=ok?parseTime(inp.value):null;clockEdit=null;
+    if(secs&&secs>=60&&secs<=240*60){free={total:secs,remaining:secs,running:false,done:false};render();freeStart()}
+    else{render();if(wasFree)freeStart();else if(wasPlan&&!free)$("start").click()}};
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();finish(true)}else if(e.key==="Escape"){e.preventDefault();finish(false)}});
+  inp.addEventListener("blur",()=>finish(true));
+}
+$("clock").title="Click to set a free timer";$("clock").style.cursor="text";
+$("clock").addEventListener("click",()=>editClock());
+// while the free timer runs, the timer buttons control it instead of the plan
+document.addEventListener("click",e=>{
+  if(!free)return;const b=e.target.closest&&e.target.closest("#start,#pause,#finishEarly,#next");if(!b)return;
+  e.stopImmediatePropagation();e.preventDefault();
+  if(b.id==="start")freeStart();else if(b.id==="pause"){freeStop();render()}else freeEnd();
+},true);
+
 // Chord Dice: a shuffled 36-card deck (12 roots x maj7, m7 and 7).
 const chordDeckSource = [
   ["C","Cmaj7","C E G B","Major seventh","1 · 3 · 5 · 7"],

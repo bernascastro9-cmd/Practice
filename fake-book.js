@@ -380,7 +380,7 @@ function buildMixer(bus,reverb,levels,style){
   const ch=audio.createGain();ch.gain.value=levels[key]??1;let node=ch;
   for(const [type,f,g,q] of MIX_EQ[key]){const b=audio.createBiquadFilter();b.type=type;b.frequency.value=f;if(type!=='highpass')b.gain.value=g;b.Q.value=q;node.connect(b);node=b}
   node.connect(bus);bus.channels[key]=ch;
-  if(REVERB_SEND[key]){const sd=audio.createGain();sd.gain.value=REVERB_SEND[key]*(key==='piano'&&PEDAL[style]?1+.35*PEDAL[style]:1);node.connect(sd);sd.connect(rin)}
+  if(REVERB_SEND[key]){const sd=audio.createGain();sd.gain.value=REVERB_SEND[key]*(key==='piano'&&PEDAL[style]?1+.35*PEDAL[style]:1)*(key==='drums'&&KIT_FOR[style]==='kit_virt'&&samplesManifest&&samplesManifest.kit_virt?.5:1);node.connect(sd);sd.connect(rin)}   // the jazz kit already carries its room
  }
 }
 function makeReverb(){
@@ -525,7 +525,7 @@ function sampleTone(bk,m,start,dur,vel,bus,kind,opt){
 // where each drum sits across the stereo field, as heard from in front of the kit
 const KIT_PAN={hat:.3,open:.3,pedal:.26,hihat:.3,ride:-.26,bell:-.26,crash:-.34,tom:.12,stir:-.06,brush:-.04};
 // Virtuosity Drums (CC0) level per piece, matched to the Big Rusty the mix was balanced on (measured)
-const VIRT_TRIM={"kick": 0.39, "snare": 0.72, "rim": 1.22, "hat": 1.89, "open": 2.73, "pedal": 1.18, "ride": 1.5, "bell": 1.03, "crash": 0.63, "tom": 0.54};
+const VIRT_TRIM={"kick": 0.44, "snare": 0.8, "rim": 1.45, "hat": 2.16, "open": 3.28, "pedal": 1.23, "ride": 1.77, "bell": 1.23, "crash": 0.66, "tom": 0.6};
 const CYMBALS=new Set(['hat','open','pedal','ride','bell','crash']);
 function kitHit(key,vel,start,bus,gk){
  if(samplesDisabled)return false;
@@ -1750,18 +1750,22 @@ let earBus=null;
 (function(){
  // Chrome, Edge and Firefox have Web MIDI; Safari gets it from the "Web MIDI for Safari" extension (macOS), which can appear a moment after the page
  const held=new Map(),sustained=new Set();let pedal=false,bus=null;
- const ctxOk=()=>{try{const c=getAudio();if(c.state==='suspended')c.resume();return c}catch(e){return null}};
+ // the keyboard has its own audio engine: pausing the Fake Book (which suspends the band's) never delays it,
+ // and playing a key never wakes the band up; it uses the same decoded piano recordings
+ let midiCtx=null;
+ const ctxOk=()=>{try{if(!midiCtx){const AC=window.AudioContext||window.webkitAudioContext;try{midiCtx=new AC({latencyHint:'interactive'})}catch(e){midiCtx=new AC()}}if(midiCtx.state==='suspended')midiCtx.resume();return midiCtx}catch(e){return null}};
+ const withCtx=(c,fn)=>{const prev=audio;audio=c;try{return fn()}finally{audio=prev}};
  // browsers only start sound after a click or key press on the page
  const wake=()=>{ctxOk()};addEventListener('pointerdown',wake,{once:true});addEventListener('keydown',wake,{once:true});
  const toast=t=>{const el=document.createElement('div');el.className='pp-toast';el.textContent=t;document.body.append(el);setTimeout(()=>el.classList.add('out'),2200);setTimeout(()=>el.remove(),2600)};
  const out=c=>{if(!bus){bus=c.createGain();bus.gain.value=1.6;bus.connect(c.destination);const rv=makeReverb(),sd=c.createGain();sd.gain.value=.16;bus.connect(sd);sd.connect(rv);rv.connect(c.destination)}return bus};
- const release=(m,c)=>{const g=held.get(m);if(!g)return;held.delete(m);if(g.__on!==undefined)damperNoise(m,c.currentTime,g.__vel||.6,c.currentTime-g.__on,{channels:{piano:out(c)},mem:{}});g.gain.cancelScheduledValues(c.currentTime);g.gain.setTargetAtTime(0,c.currentTime,.09);setTimeout(()=>{try{g.disconnect()}catch(e){}},1500)};
+ const release=(m,c)=>{const g=held.get(m);if(!g)return;held.delete(m);if(g.__on!==undefined)withCtx(c,()=>damperNoise(m,c.currentTime,g.__vel||.6,c.currentTime-g.__on,{channels:{piano:out(c)},mem:{}}));g.gain.cancelScheduledValues(c.currentTime);g.gain.setTargetAtTime(0,c.currentTime,.09);setTimeout(()=>{try{g.disconnect()}catch(e){}},1500)};
  function noteOn(m,v){
   const c=ctxOk();if(!c||samplesDisabled)return;
   if(!banks.piano){loadBank('piano').catch(()=>{});return}
   if(held.has(m))release(m,c);sustained.delete(m);
-  const g=c.createGain();g.connect(out(c));g.__on=c.currentTime;g.__vel=Math.max(.08,Math.pow(v/127,1.3));held.set(m,g);
-  curDyn=0;liveKey=true;try{piano(m,c.currentTime,8,Math.max(.08,Math.pow(v/127,1.3)),{channels:{piano:g},mem:{}},'grand')}finally{liveKey=false}   // start right away
+  withCtx(c,()=>{const g=c.createGain();g.connect(out(c));g.__on=c.currentTime;g.__vel=Math.max(.08,Math.pow(v/127,1.3));held.set(m,g);
+   curDyn=0;liveKey=true;try{piano(m,c.currentTime,8,g.__vel,{channels:{piano:g},mem:{}},'grand')}finally{liveKey=false}});   // start right away
  }
  function noteOff(m){const c=ctxOk();if(!c)return;if(pedal){sustained.add(m);return}release(m,c)}
  function onMessage(e){

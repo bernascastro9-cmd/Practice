@@ -7,7 +7,7 @@ Web app de estudo de piano: um plano de exercícios com temporizador, quatro fer
 - **Plan:** a lista de exercícios do dia, com resumo e barra de progresso. Em **Edit** escolhe-se a ferramenta de cada exercício, ajustam-se os minutos e juntam-se pausas (**+ Add break**). Os exercícios feitos ficam marcados até ao fim do dia; ao abrir a app, ela começa no primeiro exercício ainda por fazer.
 - **Tools:** as quatro ferramentas, que se abrem a qualquer momento; a do exercício atual tem uma luz verde.
 - **History:** dias e minutos por exercício, sequência de dias (aguenta até 2 dias seguidos de descanso), tempo total, e exportação/importação do histórico.
-- **Temporizador:** sempre visível numa barra no topo, com play/pausa e ✓ para dar o exercício por feito.
+- **Temporizador:** sempre visível numa barra no topo, com play/pausa e ✓ para dar o exercício por feito. Clicando no tempo, escreve-se lá mesmo um **temporizador livre** (Free timer) para uma coisa fora do plano: "15" são 15 minutos, "15:30" quinze minutos e meio; Enter (ou clicar fora) começa, Esc cancela; o exercício do plano fica onde estava, com o seu tempo, e o temporizador livre não marca nada como feito.
 
 ## Ferramentas
 
@@ -31,13 +31,13 @@ Web app de estudo de piano: um plano de exercícios com temporizador, quatro fer
 - **19 estilos:** Jazz Swing, Swing Two-Feel, Jazz Waltz, Ballad, Bossa Nova, Samba, Partido Alto, Latin Jazz, Afro 12/8, Boogaloo, Second Line, Blues Shuffle, Slow Blues, Jazz Even 8ths, Even 16ths, Pop, Rock, Funk e Reggae.
 - **Piano:** voicings de duas mãos, figuras variadas por estilo, pedal nas baladas, ruído do abafador ao largar as teclas; a andamentos lentos repete os acordes longos com variação (voz de cima, arpejo, notas do meio) e a andamentos rápidos (acima de ~190 bpm) acompanha com menos acordes.
 - **Baixo:** walking bass nas escalas de cada acorde; nas notas longas a andamentos lentos passa à quinta ou à oitava.
-- **Bateria:** nos estilos de jazz e latinos, uma bateria de jazz (Virtuosity Drums) com várias gravações de cada prato e pratos ligeiramente suavizados; nos estilos pop, rock, funk, reggae e even 16ths, a Big Rusty; escovas na ballad e no samba. Percussão latina (congas, bongós, cowbell, claves, guiro, shaker, agogô) no Latin Jazz, Boogaloo, Bossa, Samba, Partido Alto e Afro 12/8.
+- **Bateria:** nos estilos de jazz e latinos, uma bateria de jazz (Virtuosity Drums) com várias gravações de cada prato, pratos ligeiramente suavizados e bombo, tarola e timbalões com menos ressonância e sala; nos estilos pop, rock, funk, reggae e even 16ths, a Big Rusty; escovas na ballad e no samba. Percussão latina (congas, bongós, cowbell, claves, guiro, shaker, agogô) no Latin Jazz, Boogaloo, Bossa, Samba, Partido Alto e Afro 12/8.
 - **Som:** reverb de sala, instrumentos colocados no estéreo, pequenas variações de afinação e volume em cada nota e pancada, compressão suave de toda a banda, e volumes acertados entre estilos (dentro de 1 LU).
 - **Mixer:** volume de cada instrumento e da banda inteira.
 
 ## Teclado MIDI
 
-Num browser com MIDI na página (Chrome, Edge ou Firefox; no Safari do Mac, com a extensão "Web MIDI for Safari"), basta ligar o teclado: a app deteta-o, mostra um aviso curto e toca o piano com a força de cada tecla e o pedal de sustain, nas 88 teclas (lá0 a dó8). Ao ligar o teclado, o piano da banda passa a 0 (pode voltar a subir-se no mixer); ao desligar, volta ao que estava. No iPhone e no iPad os browsers não têm MIDI. O som começa depois do primeiro clique ou tecla na página (regra dos browsers).
+Num browser com MIDI na página (Chrome, Edge ou Firefox; no Safari do Mac, com a extensão "Web MIDI for Safari"), basta ligar o teclado: a app deteta-o, mostra um aviso curto e toca o piano com a força de cada tecla e o pedal de sustain, nas 88 teclas (lá0 a dó8). O teclado tem um motor de áudio próprio, por isso pôr o Fake Book em pausa não o atrasa nem acorda a banda. Ao ligar o teclado, o piano da banda passa a 0 (pode voltar a subir-se no mixer); ao desligar, volta ao que estava. No iPhone e no iPad os browsers não têm MIDI. O som começa depois do primeiro clique ou tecla na página (regra dos browsers).
 
 ## Ficheiros
 

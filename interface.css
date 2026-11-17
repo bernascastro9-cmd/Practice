@@ -669,3 +669,10 @@ svg.alt-ico-whole path{fill:currentColor!important;stroke:none!important}
 .alt-fbwrap{position:fixed;left:0;right:0;z-index:39;padding:8px 0 12px;background:linear-gradient(var(--bg) 78%,transparent);opacity:0;pointer-events:none;transition:opacity .18s}
 .alt-fbwrap.show{opacity:1;pointer-events:auto}
 .alt-fbwrap .alt-fbbar{position:relative;box-sizing:border-box;opacity:1;transform:none;pointer-events:auto;transition:none}
+/* the timer's and the Fake Book bar's background bands never block clicks on what is under them (only their cards do) */
+.alt-shell .alt-timerbar{pointer-events:none}
+.alt-shell .alt-timerbar>*{pointer-events:auto}
+.alt-fbwrap,.alt-fbwrap.show{pointer-events:none!important}
+.alt-fbwrap.show .alt-fbbar{pointer-events:auto!important}
+/* free timer: no "Open <tool>" — it is not an exercise of the plan */
+.pp-free .alt-open-tool{display:none!important}
