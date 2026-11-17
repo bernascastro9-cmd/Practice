@@ -1,0 +1,62 @@
+/* ===== Alternative look: the design language of the preview pages ===== */
+:root{color-scheme:light;--bg:#edf0f4;--panel:#f8f9fb;--panel2:#e6eaf1;--line:#c5ccd7;--text:#161f2d;--muted:#566176;--accent:#2a56e8;--accentText:#fff;--ink:#161f2d;
+ --display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;--body:'Figtree','Avenir Next','Segoe UI',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#10141b;--panel:#171c25;--panel2:#1f2736;--line:#2d3544;--text:#e7ebf2;--muted:#9aa5b8;--accent:#7a9bff;--accentText:#0c1220;--ink:#e7ebf2}}
+html,body{background:var(--bg)!important;color:var(--text)!important;font-family:var(--body)!important}
+body::before,body::after{display:none!important}
+h1,h2,h3,.brand,.rep-header h2,#repTitle{font-family:var(--display)!important;letter-spacing:-.02em}
+/* panels: flat cards with a hairline */
+.panel,.apple-sidebar,.card,header,.topbar{background:var(--panel)!important;border:1.5px solid var(--line)!important;box-shadow:none!important;backdrop-filter:none!important}
+.item{background:transparent!important;border:1.5px solid var(--line)!important;box-shadow:none!important;color:var(--text)!important}
+.item[aria-pressed="true"],.item.active,.item.current{background:var(--ink)!important;color:var(--bg)!important;border-color:var(--ink)!important}
+.item[aria-pressed="true"] *{color:inherit!important}
+/* buttons */
+button.primary,.primary{background:var(--accent)!important;color:var(--accentText)!important;border:0!important;box-shadow:none!important;border-radius:.6rem!important;background-image:none!important}
+button.secondary,.secondary{background:transparent!important;color:var(--text)!important;border:1.5px solid var(--line)!important;border-radius:.6rem!important;box-shadow:none!important}
+button.secondary:hover{border-color:var(--accent)!important}
+.rep-play{border-radius:999px!important;padding:.75rem 1.6rem!important;font-weight:600!important}
+select,.rep-select,input[type=search],input[type=text],input[type=number]{background:var(--panel)!important;color:var(--text)!important;border:1.5px solid var(--line)!important;border-radius:.6rem!important;box-shadow:none!important}
+input[type=range]{accent-color:var(--accent)}
+.pill{background:transparent!important;border:1.5px solid var(--line)!important;color:var(--muted)!important}
+/* Repertoire */
+.rep-eyebrow{color:var(--accent)!important;letter-spacing:.08em;font-weight:600}
+.rep-library,.rep-toolbar,.rep-transport,.rep-mixer-disclosure,.rep-practice-settings label.rep-toggle{background:transparent!important;border:1.5px solid var(--line)!important;box-shadow:none!important}
+.rep-list-item{background:transparent!important;border:1.5px solid var(--line)!important;color:var(--text)!important;box-shadow:none!important}
+.rep-list-item[aria-pressed="true"],.rep-list-item.active,.rep-list-item.selected{background:var(--ink)!important;color:var(--bg)!important;border-color:var(--ink)!important}
+.rep-list-item[aria-pressed="true"] *,.rep-list-item.active *,.rep-list-item.selected *{color:inherit!important}
+.rep-style-info{color:var(--muted)!important}
+/* the chart: laid out like the original (bar lines, numbers top-right, a gap between rows), in the new colours */
+.rep-paper{background:var(--panel)!important;border:1.5px solid var(--line)!important;border-radius:16px!important;box-shadow:none!important;padding:14px 16px 10px!important;color:var(--text)!important}
+.rep-paper-head{color:var(--muted)!important;padding:0 0 10px!important}
+.rep-paper-head b{color:var(--text)!important}
+.rep-chart{gap:14px 0!important;border:0!important}
+.rep-bar,.rep-bar:nth-child(4n),.rep-bar:nth-child(4n+1){border:0!important;border-left:2px solid var(--ink)!important;border-radius:0!important;background:transparent!important;color:var(--text)!important;min-height:86px!important;padding:24px 8px 8px 10px!important;font-family:var(--display)!important}
+.rep-bar:nth-child(4n){border-right:2px solid var(--ink)!important}
+.rep-bar:nth-child(4n+1){border-left-width:3px!important}
+.rep-bar:hover{background:var(--panel2)!important}
+.rep-bar .rep-bar-chords{font-family:var(--display)!important;font-weight:600!important;font-size:clamp(1rem,2.3vw,1.3rem)!important;color:inherit!important}
+.rep-bar .rep-bar-chords *{color:inherit!important}
+.rep-bar-num{position:absolute!important;top:5px!important;right:6px!important;left:auto!important;color:var(--muted)!important;font:500 .66rem var(--body)!important}
+.rep-bar-section{color:var(--accent)!important;font-family:var(--body)!important}
+.rep-bar.in-loop{background:color-mix(in srgb,var(--accent) 10%,transparent)!important}
+.rep-bar.playing,.rep-bar.in-loop.playing{background:color-mix(in srgb,var(--accent) 18%,transparent)!important;box-shadow:inset 0 0 0 2px var(--accent)!important;color:var(--text)!important}
+.rep-bar.playing .rep-bar-num{color:var(--accent)!important;opacity:1}
+.rep-chart-foot{color:var(--muted)!important}
+.rep-big-value{font-family:var(--display)!important}
+.rep-switch{background:var(--line)!important}
+input:checked+.rep-switch{background:var(--accent)!important}
+/* text that the app colours for its dark theme */
+.rep-big-value,#repTempoLabel,#repTransValue,#repTitle,.rep-song-head h3{color:var(--text)!important}
+.rep-playing-status,.rep-hint,.rep-import-hint,#repArtist,.rep-ctrl>label,.rep-transport-opts label,.rep-library>label,.rep-chart-foot,.rep-loopbar label,.rep-practice-settings label{color:var(--muted)!important}
+.rep-library>label #repSongCount{color:var(--muted)!important}
+.rep-mixer-disclosure summary,.rep-toggle span,.rep-channel label,.rep-channel output{color:var(--text)!important}
+.rep-shortcuts{color:var(--muted)!important;opacity:1}
+.rep-transport-opts{background:transparent!important;border:1.5px solid var(--line)!important;color:var(--text)!important;box-shadow:none!important}
+.rep-transport-opts select,.rep-loopselect{background:transparent!important;color:var(--text)!important;border:0!important}
+.duration{background:transparent!important;border:1.5px solid var(--line)!important;color:var(--muted)!important;box-shadow:none!important}
+.item[aria-pressed="true"] .duration{border-color:currentColor!important;color:inherit!important;opacity:.8}
+.rep-paper-head,.rep-chart-foot{padding-left:.2rem!important;padding-right:.2rem!important}
+.rep-chart-foot{padding-top:.6rem!important}
+/* timer and the practice-tool cards */
+#clock,#clock *,.clock,.timer-time,#time{color:var(--text)!important}
+#earTraining .ear-challenge,.ear-challenge,#drawChord,#generateKey,#diceChord,#earRoot{background:var(--panel2)!important;color:var(--text)!important;border:1.5px solid var(--line)!important;box-shadow:none!important}

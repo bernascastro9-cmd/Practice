@@ -1,0 +1,4 @@
+Versilian Community Sample Library (VCSL) — https://github.com/sgossner/VCSL
+Created by Versilian Studios LLC. Released under Creative Commons Zero (CC0 1.0 Universal):
+public domain, free for any use, including commercial, with no attribution required.
+Used here: vibraphone (soft mallets) in vibes.mp3; congas, bongos, cowbell, claves, guiro, small shaker and agogô bells in perc.mp3.

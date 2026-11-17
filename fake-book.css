@@ -1,0 +1,220 @@
+/* Repertoire — integrated chord-chart library and practice band */
+#repertoirePanel{margin-top:0;min-width:0}
+#repertoirePanel [hidden]{display:none!important}
+.rep-header,.rep-list-head,.rep-song-head,.rep-transport,.rep-toolbar,.rep-inline,.rep-editor-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rep-header{justify-content:space-between;margin-bottom:17px}.rep-header h2{font-size:1.13rem;margin-bottom:3px}
+.rep-eyebrow{color:#8fa5c3;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.rep-layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:15px;align-items:start}
+.rep-library{background:#131c2b;border:1px solid #30415a;border-radius:16px;padding:13px;min-width:0}
+.rep-library label{font-size:.81rem;color:#a9bdd7;font-weight:700}
+.rep-library input,.rep-ctrl select,.rep-ctrl input,.rep-dialog input,.rep-dialog select,.rep-dialog textarea,.rep-loopselect{background:#111b2a;border:1px solid #3a4c63;border-radius:9px;color:#f4f7ff;min-height:37px;padding:8px 9px;outline-offset:2px;font:inherit}
+.rep-library input:focus,.rep-dialog textarea:focus,.rep-dialog input:focus,.rep-dialog select:focus,.rep-ctrl input:focus,.rep-ctrl select:focus{outline:2px solid #5da8ff;outline-offset:1px}
+#repSearch{width:100%;margin:8px 0 9px;font-size:.85rem}
+#repSongList{display:flex;flex-direction:column;gap:5px;max-height:430px;overflow-y:auto}
+.rep-list-item{text-align:left;width:100%;padding:10px;background:#1e2a3a;border:1px solid transparent;border-radius:10px;color:#e6efff;line-height:1.22;font-weight:600;font-size:.84rem;display:flex;flex-direction:column;align-items:flex-start;gap:4px;overflow-wrap:anywhere}
+.rep-list-item small{font-size:.74rem;font-weight:400;color:#95aaca}
+.rep-list-item[aria-current="true"]{background:#183c66;border-color:#3b87d9}
+.rep-list-item:hover{border-color:#5c88bb}
+.rep-library-buttons{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.rep-small-btn{padding:8px 10px!important;font-size:.79rem!important;border-radius:9px!important;min-height:36px;white-space:nowrap}
+.rep-library-buttons button:first-child{grid-column:span 2}
+.rep-stage{min-width:0}.rep-song-head{justify-content:space-between;gap:12px;margin-bottom:11px}
+.rep-song-head h3{font-size:1.3rem;line-height:1.2;margin:0 0 4px;letter-spacing:-.035em;overflow-wrap:anywhere}
+.rep-song-head p{font-size:.78rem;color:#97abc6;margin:0}.rep-song-actions{display:flex;gap:5px;flex-wrap:wrap}
+.rep-toolbar{background:#192538;border:1px solid #344763;border-radius:13px;padding:10px;margin:10px 0;gap:10px}
+.rep-ctrl{display:flex;flex-direction:column;gap:4px;flex:1 1 105px;min-width:0}
+.rep-ctrl label{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#a6b8d1;font-weight:700}
+.rep-ctrl select{width:100%;font-size:.83rem;max-width:100%}
+.rep-ctrl input[type=range]{border:0;background:transparent;padding:0;min-height:27px;width:100%;accent-color:#47a0ff}
+.rep-ctrl .rep-inline{gap:5px;flex-wrap:nowrap}.rep-step{padding:7px 10px!important;min-width:32px;min-height:35px}
+.rep-big-value{color:#cfe6ff;font-variant-numeric:tabular-nums;font-size:.95rem;font-weight:750;min-width:49px;text-align:center;white-space:nowrap}
+.rep-paper{color:#14202d;background:#fafafa;border:1px solid #d3dee9;border-radius:13px;padding:19px 14px 22px;margin:12px 0;box-shadow:0 8px 25px #0002;overflow:hidden}
+.rep-paper-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:15px;color:#405266;font-size:.73rem;font-weight:650}
+.rep-paper-head b{color:#203851}
+.rep-chart{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px 0}
+.rep-bar{position:relative;border:0;border-left:2px solid #243c55;border-radius:0;background:transparent;min-width:0;min-height:91px;text-align:left;padding:23px 7px 6px 9px;color:#141c28;cursor:pointer;font-size:1rem;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:3px}
+.rep-bar:nth-child(4n){border-right:2px solid #243c55}
+.rep-bar:nth-child(4n+1){border-left-width:3px}
+.rep-bar:hover{background:#e7f2ff}.rep-bar:focus-visible{outline:2px solid #127ce8;outline-offset:-1px;z-index:2}
+.rep-bar.playing{background:#d5eaff;box-shadow:inset 0 0 0 2px #2f92fa}
+.rep-bar.in-loop{background:#f0f7ff}.rep-bar.in-loop.playing{background:#b9dbff}
+.rep-bar-num{position:absolute;top:4px;right:5px;font-size:.62rem;color:#7d8794;letter-spacing:0}
+.rep-bar-section{position:absolute;top:0;left:7px;color:#1780e0;font-size:.68rem;font-weight:900}
+.rep-bar-chords{font-size:clamp(.77rem,1.5vw,1.08rem);font-weight:750;display:flex;gap:4px;flex-wrap:wrap;line-height:1.15;letter-spacing:-.025em;white-space:normal;overflow-wrap:anywhere}
+.rep-bar-chords>span{flex:1 1 auto;min-width:0}.rep-bar-chords.one>span{flex:1 1 100%}
+.rep-bar-empty{color:#89929a;font-weight:500;font-size:1.35rem}
+.rep-chart-foot{display:flex;justify-content:space-between;gap:5px;flex-wrap:wrap;font-size:.72rem;color:#7b8c9d;margin-top:13px}
+.rep-transport{justify-content:space-between;background:#182437;border:1px solid #364860;border-radius:14px;padding:11px 12px;gap:9px}
+.rep-transport-main,.rep-transport-opts{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.rep-play{border-radius:12px;min-width:108px;padding:11px 17px!important;min-height:43px}
+.rep-stop{padding:10px 14px!important;min-height:43px}
+.rep-transport .rep-loopselect{width:64px;font-size:.8rem;padding:7px 5px;min-height:34px}
+.rep-transport label{font-size:.76rem;color:#b7c7da}
+.rep-playing-status{min-height:20px;color:#a6c2e2;font-size:.78rem;padding:7px 3px 0}
+.rep-practice-settings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px}
+.rep-practice-settings label{display:flex;align-items:center;gap:5px;color:#cbd9ea;font-size:.76rem;line-height:1.3;cursor:pointer;min-width:0}
+.rep-practice-settings input[type=checkbox]{accent-color:#1687ff;width:16px;height:16px;flex:none}
+.rep-loopbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px;margin:10px 0}
+.rep-loopbar .rep-ctrl{flex:auto}.rep-loopbar select{font-size:.8rem}
+.rep-empty{text-align:center;color:#aabdd7;font-size:.89rem;padding:40px 15px;border:1px dashed #405273;border-radius:13px}
+.rep-hint{font-size:.75rem;color:#92a8c3;line-height:1.4;margin-top:8px}
+.rep-notice{font-size:.79rem;color:#9fcdfa;min-height:18px;margin:6px 0}
+.rep-dialog{color:#eef5ff;background:#1c293a;border:1px solid #455c7b;border-radius:20px;padding:0;width:min(92vw,680px);max-height:min(92vh,850px);box-shadow:0 24px 90px #0009}
+.rep-dialog::backdrop{background:rgba(2,8,18,.77);backdrop-filter:blur(3px)}
+.rep-dialog-inner{padding:20px}.rep-dialog h3{margin:0 0 4px;font-size:1.3rem}.rep-dialog p{color:#a8bad2;font-size:.82rem;margin:0 0 14px}
+.rep-editgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.rep-editgrid>label{display:flex;flex-direction:column;gap:5px;color:#c7d8ed;font-size:.77rem;font-weight:650}
+.rep-editgrid label.wide{grid-column:span 2}
+.rep-editgrid input,.rep-editgrid select{width:100%;font-size:.9rem}
+.rep-dialog textarea{width:100%;margin-top:5px;min-height:170px;resize:vertical;line-height:1.5;font-size:.9rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.rep-dialog .rep-editor-actions{justify-content:flex-end;margin-top:16px}
+.rep-dialog .rep-error{font-size:.79rem;color:#ffb7b7;min-height:18px;margin-top:5px}
+.rep-bar-form{display:flex;flex-direction:column;gap:9px}.rep-bar-form label{display:flex;flex-direction:column;gap:5px;font-size:.78rem;color:#cbd9ea}
+.rep-bar-form input{width:100%}.rep-dialog .rep-muted{color:#8da3c0}
+.rep-sidebar-empty{color:#8ea5c1;font-size:.78rem;padding:13px 4px}
+@media(min-width:1050px){#repertoirePanel{padding:25px}}
+@media(max-width:1150px){.rep-layout{grid-template-columns:1fr}.rep-library{padding:10px}.rep-library-buttons{grid-template-columns:repeat(3,1fr)}.rep-library-buttons button:first-child{grid-column:auto}#repSongList{flex-direction:row;overflow-x:auto;max-height:110px;gap:7px;padding:4px 0 7px}.rep-list-item{min-width:135px;max-width:200px}}
+@media(max-width:470px){#repertoirePanel{padding:15px 11px}.rep-header{margin-bottom:11px}.rep-paper{padding:14px 7px}.rep-chart{gap:9px 0}.rep-bar{padding:21px 3px 4px 5px;min-height:76px}.rep-bar-chords{font-size:.75rem;letter-spacing:-.05em}.rep-song-head h3{font-size:1.12rem}.rep-transport{padding:10px 8px}.rep-practice-settings{gap:5px}.rep-practice-settings label{font-size:.69rem}.rep-dialog-inner{padding:15px}.rep-library-buttons button{font-size:.75rem!important;padding:7px 5px!important}.rep-editgrid{gap:7px}.rep-header h2{font-size:1rem}}
+@media print{body.print-repertoire{background:#fff!important;color:#000!important}body.print-repertoire main{max-width:none!important;margin:0!important;padding:0!important}body.print-repertoire header,body.print-repertoire .apple-sidebar,body.print-repertoire #timerPanel,body.print-repertoire #chordDice,body.print-repertoire #earTraining,body.print-repertoire #progressionGenerator,body.print-repertoire .rep-header,body.print-repertoire .rep-library,body.print-repertoire .rep-song-actions,body.print-repertoire .rep-toolbar,body.print-repertoire .rep-transport,body.print-repertoire .rep-practice-settings,body.print-repertoire .rep-loopbar,body.print-repertoire .rep-playing-status,body.print-repertoire .rep-hint,body.print-repertoire .rep-notice{display:none!important}body.print-repertoire .apple-workspace,body.print-repertoire .apple-layout,body.print-repertoire .rep-layout{display:block!important}body.print-repertoire #repertoirePanel{display:block!important;background:white!important;box-shadow:none!important;border:0!important;padding:0!important}body.print-repertoire .rep-song-head h3{color:#111!important;font-size:24pt}body.print-repertoire .rep-song-head p{color:#444!important}body.print-repertoire .rep-paper{background:white!important;color:black!important;border:0!important;box-shadow:none!important;padding:0!important}body.print-repertoire .rep-bar{break-inside:avoid;min-height:80px}body.print-repertoire .rep-bar.playing{box-shadow:none!important;background:white!important}body.print-repertoire .rep-chart{gap:10px 0}}
+/* Import options and smaller screens */
+.rep-library-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rep-library-buttons button:first-child{grid-column:span 2}
+.rep-library-buttons button{min-width:0;white-space:normal}
+.rep-library-buttons #repExport{grid-column:span 2}
+.rep-import-hint{font-size:.71rem;margin:9px 2px 0}
+#repImportText{width:100%;min-height:125px;resize:vertical;background:#111b2a;border:1px solid #3a4c63;border-radius:10px;padding:10px;color:#f4f7ff;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+.rep-bar-marker{color:#2871bb;font-weight:650;font-size:.63rem;letter-spacing:.01em}
+.rep-bar-chords span{word-break:normal}
+.rep-song-meta{margin-top:3px;color:#8ca7c6;font-size:.7rem}
+.rep-library-info{font-size:.7rem;color:#97abc6}
+@media(max-width:1150px){.rep-library-buttons{grid-template-columns:repeat(4,minmax(0,1fr))}.rep-library-buttons button:first-child,.rep-library-buttons #repExport{grid-column:auto}}
+@media(max-width:600px){.rep-library-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}.rep-library-buttons button:first-child,.rep-library-buttons #repExport{grid-column:auto}.rep-library-buttons button{font-size:.74rem!important}}
+
+/* Use the actual size of the study workspace, not just the window size. */
+#repertoirePanel{container-type:inline-size}
+@container (max-width:850px){
+ .rep-layout{grid-template-columns:minmax(0,1fr)}
+ .rep-library{padding:11px}
+ #repSongList{display:flex;flex-direction:row;overflow-x:auto;max-height:105px;gap:7px;padding:4px 0 7px}
+ .rep-list-item{min-width:135px;max-width:195px}
+ .rep-library-buttons{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .rep-library-buttons button:first-child{grid-column:auto}
+}
+@container (max-width:480px){
+ .rep-library-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .rep-library-buttons button:first-child{grid-column:auto}
+ .rep-bar{min-height:79px}
+}
+
+/* Consistent controls for importing and backing up playlists. */
+.rep-library-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.rep-library-buttons button:first-child,.rep-library-buttons button:last-child{grid-column:span 2!important}
+
+/* Independent instrument faders */
+.rep-mixer{display:flex;flex-direction:column;gap:6px;padding:10px 12px;margin:10px 0;background:#131c2b;border:1px solid #30415a;border-radius:16px}
+.rep-channel{display:grid;grid-template-columns:48px 40px minmax(0,1fr) 48px;min-width:0;align-items:center;gap:8px;padding:2px 0;color:#e6efff}
+.rep-channel>label:first-child{font-weight:700;font-size:.88rem}
+.rep-channel output{font-size:.8rem;color:#95bfff;font-variant-numeric:tabular-nums}
+.rep-channel .rep-fader{writing-mode:horizontal-tb;direction:ltr;width:100%;min-width:0;height:28px;margin:0;padding:0;accent-color:#68acff;cursor:pointer;touch-action:pan-y}
+.rep-channel-enable{display:flex;align-items:center;gap:5px;font-size:.78rem;color:#a9bdd7}
+.rep-channel:has(input[type=checkbox]:not(:checked)){opacity:.55}
+
+.rep-mixer-disclosure{margin:10px 0;border:1px solid #30415a;border-radius:12px;background:#131c2b}
+.rep-mixer-disclosure summary{padding:10px 12px;cursor:pointer;color:#a9bdd7;font-size:.85rem;font-weight:700}
+.rep-mixer-disclosure summary:focus-visible{outline:2px solid #68acff;outline-offset:2px;border-radius:10px}
+.rep-mixer-disclosure .rep-mixer{margin:0;padding-top:4px;border:0;background:transparent}
+
+.rep-bar{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
+.rep-bar.in-loop{background:#dceeff;box-shadow:inset 0 -3px #398be0}
+
+/* Refined compact player controls and chord picker */
+.rep-select{appearance:none;-webkit-appearance:none;min-height:40px!important;padding:8px 34px 8px 12px!important;border:1px solid #405674!important;border-radius:12px!important;background-color:#172438!important;background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%239fc5f2' stroke-width='1.8' d='m1 1 5 5 5-5'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important;color:#f2f6fc!important;font-weight:650!important;cursor:pointer}
+.rep-ctrl select:focus,.rep-transport-opts select:focus{outline:2px solid #68acff;outline-offset:2px}
+.rep-transport-opts{display:flex;align-items:center;gap:8px;padding:5px 9px;border-radius:13px;background:#172438;border:1px solid #30415a}
+.rep-transport-opts>label{font-size:.76rem;font-weight:700;color:#a9bdd7}
+.rep-transport-opts .rep-loopselect{background-color:transparent!important;border:0!important;min-height:34px!important;padding:5px 26px 5px 8px!important}
+.rep-toggle{position:relative;display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #30415a;border-radius:999px;background:#172438;color:#dbe7f5;cursor:pointer;font-size:.78rem}
+.rep-toggle input{position:absolute;opacity:0;width:1px;height:1px}
+.rep-switch{width:32px;height:19px;border-radius:99px;background:#526174;position:relative;transition:background .18s}
+.rep-switch:after{content:"";position:absolute;width:15px;height:15px;left:2px;top:2px;border-radius:50%;background:white;transition:transform .18s}
+.rep-toggle input:checked+.rep-switch{background:#388bea}
+.rep-toggle input:checked+.rep-switch:after{transform:translateX(13px)}
+.rep-toggle input:focus-visible+.rep-switch{outline:2px solid #a7d2ff;outline-offset:2px}
+.rep-channel-enable input[type=checkbox]{appearance:none;width:34px;height:20px;border-radius:99px;background:#526174;position:relative;margin:0;cursor:pointer;transition:background .18s;flex:none}
+.rep-channel-enable input[type=checkbox]:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:white;transition:transform .18s}
+.rep-channel-enable input[type=checkbox]:checked{background:#388bea}
+.rep-channel-enable input[type=checkbox]:checked:after{transform:translateX(14px)}
+.rep-channel-enable{font-size:0;gap:0}
+.rep-chord-rows{display:flex;flex-direction:column;gap:8px}
+.rep-chord-row{display:grid;grid-template-columns:minmax(75px,.7fr) minmax(0,1.7fr) 38px;gap:8px;align-items:center}
+.rep-chord-row select{min-width:0;width:100%;background:#111b2a;border:1px solid #3a4c63;border-radius:9px;color:#f4f7ff;min-height:40px;padding:8px;font:inherit}
+.rep-remove-chord{min-width:36px;padding:5px!important;font-size:1.2rem!important}
+
+/* style description under the toolbar */
+.rep-style-info{margin:.5rem 0 .9rem;font-size:.9rem;line-height:1.4;color:var(--muted,#667);max-width:46rem}
+.rep-style-info b{color:inherit;font-weight:600}
+.rep-shortcuts{font-size:.8rem;opacity:.75;margin-left:.5rem;white-space:nowrap}
+
+/* tempo slider: keep it usable on narrow screens */
+.rep-ctrl .rep-inline{flex-wrap:nowrap}
+#repTempo{flex:1 1 150px;min-width:110px;width:auto}
+@media (max-width:560px){.rep-toolbar .rep-ctrl:nth-child(2){flex:1 1 100%}#repTempo{min-width:0}}
+
+/* instruments chosen per song */
+.rep-instruments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0 12px}
+.rep-instruments label{display:flex;flex-direction:column;gap:4px;font-size:.72rem;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--muted,#667)}
+.rep-instruments select{width:100%;min-width:0;text-transform:none;letter-spacing:0;font-size:.9rem;padding:8px 6px;border-radius:9px}
+
+/* chart: repeat signs, segno / coda, time-signature changes and jump texts */
+.rep-bar.rep-rs{box-shadow:inset 4px 0 0 currentColor}
+.rep-bar.rep-rs::before{content:':';position:absolute;left:8px;top:50%;transform:translateY(-55%);font-weight:800;font-size:1.1rem;opacity:.8}
+.rep-bar.rep-re{box-shadow:inset -4px 0 0 currentColor}
+.rep-bar.rep-re::after{content:':';position:absolute;right:8px;top:50%;transform:translateY(-55%);font-weight:800;font-size:1.1rem;opacity:.8}
+.rep-bar.rep-rs.rep-re{box-shadow:inset 4px 0 0 currentColor,inset -4px 0 0 currentColor}
+.rep-bar-marks{position:absolute;left:8px;top:4px;font-size:.78rem;font-weight:700;opacity:.85}
+.rep-bar-note{position:absolute;left:8px;right:8px;bottom:4px;font-size:.66rem;font-weight:600;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* measure editor: form fields */
+.rep-nav{border:1px solid var(--line,#ccd);border-radius:10px;padding:10px 12px;margin:10px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
+.rep-nav legend{font-weight:650;padding:0 4px}
+.rep-nav label{display:flex;flex-direction:column;gap:3px;font-size:.85rem}
+.rep-nav .rep-check{flex-direction:row;align-items:center;gap:6px}
+.rep-nav .rep-check{flex-direction:row!important;justify-content:flex-start!important;align-items:center;gap:8px}
+.rep-nav .rep-check input[type=checkbox]{width:18px!important;height:18px!important;min-width:0!important;min-height:0!important;padding:0!important;margin:0!important;flex:none;accent-color:var(--accent,#2a56e8)}
+
+/* room between a repeat sign and the first chord of the bar */
+.rep-bar.rep-rs{padding-left:24px!important}
+.rep-bar.rep-re{padding-right:24px!important}
+.rep-bar.rep-rs::before{left:9px}
+.rep-bar.rep-re::after{right:9px}
+/* the app's own confirmation dialog */
+.pp-confirm{max-width:420px}
+.pp-confirm .pp-confirm-text{margin:0 0 18px;font-size:1rem;line-height:1.45}
+.pp-confirm .rep-dialog-actions{display:flex;justify-content:flex-end;gap:8px}
+.pp-confirm .danger{background:#d93636!important;color:#fff!important;border-color:transparent!important}
+/* a short notice when a MIDI keyboard is found */
+.pp-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:rgba(20,24,34,.92);color:#fff;padding:10px 16px;border-radius:12px;font:600 .9rem system-ui,sans-serif;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,.25);transition:opacity .35s}
+.pp-toast.out{opacity:0}
+/* the chords themselves step aside from a repeat sign */
+.rep-bar.rep-rs .rep-bar-chords{padding-left:12px}
+.rep-bar.rep-re .rep-bar-chords{padding-right:12px}
+/* confirmation dialog: room around the text, and a red Delete */
+body dialog.rep-dialog.pp-confirm{padding:22px 24px!important}
+body dialog.rep-dialog.pp-confirm button.pp-confirm-ok.danger{background:#d93636!important;color:#fff!important;border-color:transparent!important;box-shadow:none!important}
+
+/* Import from PDF: the review window */
+.pdf-review{width:min(920px,96vw);max-height:92vh}
+.pdf-review .pdf-form{display:flex;flex-direction:column;gap:12px}
+.pdf-review h3{margin:0}
+.pdf-review .pdf-sum{margin:0;font-size:.92rem;line-height:1.45}
+.pdf-review .pdf-warn{color:#c2410c;font-weight:650}
+.pdf-review .pdf-meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.pdf-review .pdf-meta label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;font-weight:600}
+.pdf-review .pdf-grid{display:flex;flex-direction:column;gap:8px;overflow:auto;max-height:52vh;padding:2px}
+.pdf-review .pdf-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(110px,1fr);gap:6px}
+.pdf-review .pdf-m{display:flex;flex-direction:column;gap:3px;font-size:.7rem;font-weight:650;opacity:.95}
+.pdf-review .pdf-m input{font:600 .95rem system-ui,sans-serif;padding:8px;border-radius:8px;min-width:0}
+.pdf-review .pdf-m.bad input{outline:2px solid #e0662e;background:rgba(224,102,46,.08)}
+.pdf-review .pdf-m.empty input{outline:2px dashed rgba(127,127,127,.5)}
+.pdf-review .rep-dialog-actions{display:flex;justify-content:flex-end;gap:8px}
+@media (max-width:640px){.pdf-review .pdf-meta{grid-template-columns:1fr 1fr}.pdf-review .pdf-meta label:first-child{grid-column:1/-1}.pdf-review .pdf-row{grid-auto-flow:row;grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pdf-review .pdf-m.guess input{outline:2px solid #e8b33a;background:rgba(232,179,58,.1)}
+body dialog.rep-dialog.pdf-review{padding:22px 24px!important}

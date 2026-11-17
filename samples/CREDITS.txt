@@ -1,0 +1,38 @@
+Sounds used by the Repertoire practice band (cut, level-matched and compressed to MP3 for this app)
+=====================================================================================================
+
+PIANO  (piano.mp3)
+  Salamander Grand Piano V3 — recorded by Alexander Holm; SFZ remap by kinwie.
+  https://github.com/sfzinstruments/SalamanderGrandPiano  |  https://archive.org/details/SalamanderGrandPianoV3
+  Licence: Creative Commons Attribution 3.0 (CC BY 3.0) — https://creativecommons.org/licenses/by/3.0/
+  Changes: notes D#2 to A5 (the whole range the app can play, with margin) in 5 velocity layers (v5, v8, v10, v12, v15), trimmed, kept in stereo (AB microphone pair), MP3. Text: LICENSE-Salamander-CC-BY-3.0.txt
+
+ELECTRIC PIANO  (ep.mp3)
+  jRhodes3d — 1977 Rhodes Mark I Stage 73 sampled by Jeremy Learman.
+  https://github.com/sfzinstruments/jlearman.jRhodes3d
+  Licence for the samples: Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0).
+  >>> NON-COMMERCIAL USE ONLY. If this app is ever sold or monetised, remove ep.mp3 (the app then falls
+  >>> back to its built-in synth) or ask the author for a commercial licence. Text: LICENSE-jRhodes3d.txt
+  Changes: the stereo version (jRhodes3d-st), 3 velocity layers over the range the app uses, trimmed, EQ (+3 dB low shelf at 250 Hz, -4 dB high shelf at 3.5 kHz) to soften the recording's treble boost, layer levels kept as recorded, MP3.
+
+DRUMS  (kit_rusty.mp3, kit_rustybrush.mp3)
+  Big Rusty Drums — Karoryfer Samples. https://github.com/sfzinstruments/karoryfer.big-rusty-drums
+  Licence: CC0 1.0 (public domain dedication). Credit given as a courtesy. Text: LICENSE-BigRustyDrums-CC0.txt
+  Changes: hits with 3 velocity layers and several round-robins per piece (close + overhead mics mixed), mono, MP3.
+
+UPRIGHT BASS  (bass_upright.mp3)
+  Meatbass — 1958 Otto Rubner double bass, pizzicato. Karoryfer Samples / Drogomir Smolken.
+  https://github.com/sfzinstruments/karoryfer.meatbass — CC0 1.0 (royalty-free).
+
+ELECTRIC BASSES  (bass_finger.mp3, bass_pick.mp3, bass_slap.mp3, bass_dub.mp3)
+  Black and Blue Basses — Karoryfer Samples. https://github.com/sfzinstruments/karoryfer.black-and-blue-basses
+  CC0 1.0. Changes: selected notes, high-pass below each note's fundamental (removes rumble), presence EQ and light saturation so the bass is heard on small speakers, mono, MP3 (the dub bass is additionally low-pass filtered at 1.5 kHz).
+
+ORGAN  (organ.mp3)
+  FluidR3_GM SoundFont — Copyright (c) 2000-2002, 2008 Frank Wen — MIT licence. Text: LICENSE-FluidR3.txt
+
+These libraries are not affiliated with, and do not endorse, this app.
+
+- Vibraphone and Latin percussion (vibes.mp3, perc.mp3): Versilian Community Sample Library by Versilian Studios LLC, CC0 1.0 (public domain). See LICENSE-VCSL-CC0.txt.
+
+- Jazz drum kit (kit_virt.mp3): Virtuosity Drums by Versilian Studios LLC and Karoryfer Samples, CC0 1.0 (public domain) — https://github.com/sfzinstruments/virtuosity_drums. Overhead and mid mics, with some close mic on kick, snare and cross-stick.
