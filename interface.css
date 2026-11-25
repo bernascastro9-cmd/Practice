@@ -676,3 +676,76 @@ svg.alt-ico-whole path{fill:currentColor!important;stroke:none!important}
 .alt-fbwrap.show .alt-fbbar{pointer-events:auto!important}
 /* free timer: no "Open <tool>" — it is not an exercise of the plan */
 .pp-free .alt-open-tool{display:none!important}
+/* phone: the plan's Edit sits on the right */
+@media (max-width:700px){.alt-plan-head .editor-toggle-wrap{margin-left:auto!important}}
+
+
+/* metronome next to Restart plan */
+.alt-metro{position:relative;display:inline-flex}
+.alt-metro-btn{width:40px;height:38px;padding:0!important;display:inline-grid!important;place-items:center;position:relative}
+.alt-metro-btn svg{width:19px;height:19px}
+.alt-metro.running .alt-metro-btn{color:var(--accent)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 45%,transparent)!important}
+.alt-metro-led{position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:transparent;transition:background .05s}
+.alt-metro-led.on{background:var(--accent)}.alt-metro-led.on.acc{background:#e8743a}
+.alt-metro-pop{position:absolute;top:calc(100% + 8px);right:0;z-index:60;display:grid;grid-template-columns:auto auto auto auto;grid-template-rows:auto auto;align-items:center;gap:8px 8px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.14)}
+.alt-metro-pop[hidden]{display:none!important}
+.alt-metro-play{width:40px;height:40px;border-radius:999px;border:0;background:var(--accent);color:var(--accentText);display:grid;place-items:center;cursor:pointer;padding:0}
+.alt-metro-play svg{width:16px;height:16px}
+.alt-metro-step{width:34px;height:34px;border-radius:10px;border:0;background:var(--panel2);color:var(--text);font:600 1.1rem var(--body);cursor:pointer;padding:0}
+.alt-metro-bpm{display:inline-flex;align-items:baseline;gap:4px;font:600 .8rem var(--body);color:var(--muted)}
+.alt-metro-bpm input{width:3.4em;font:700 1.25rem var(--body);color:var(--text);text-align:center;border:0;background:transparent;padding:0;-moz-appearance:textfield}
+.alt-metro-bpm input::-webkit-inner-spin-button,.alt-metro-bpm input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.alt-metro-range{grid-column:1/-1;width:220px;accent-color:var(--accent)}
+@media (max-width:700px){
+ .alt-top{position:relative}
+ .alt-metro{position:static}
+ .alt-metro-pop{left:0;right:0;top:calc(100% + 4px);grid-template-columns:auto auto 1fr auto;justify-items:center}
+ .alt-metro-range{width:100%}
+}
+
+/* sync card in History */
+.alt-sync h3{margin:0 0 8px;font:600 1.05rem var(--display,var(--body))}
+.alt-sync-p{margin:0 0 10px;font-size:.92rem;line-height:1.45;color:var(--muted)}
+.alt-sync-p a{color:var(--accent);font-weight:600;text-decoration:none}
+.alt-sync-row{display:flex;gap:8px;flex-wrap:wrap}
+.alt-sync-key{flex:1 1 220px;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:500 .92rem var(--body)}
+.alt-sync-msg{margin:8px 0 0;font-size:.85rem;color:#c2410c;min-height:1em}
+.alt-sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22a06b;margin-right:7px;vertical-align:1px}
+.alt-sync-dot.bad{background:#d93636}
+.alt-btn-primary{background:var(--accent);color:var(--accentText);border:0;border-radius:12px;padding:0 16px;height:40px;font:600 .92rem var(--body);cursor:pointer}
+.alt-sync{background:var(--panel);border:1px solid color-mix(in srgb,var(--line) 80%,transparent);border-radius:16px;padding:16px 18px;margin-top:14px}
+
+/* Fake Book side panel: hide button in the list header; a narrow "Songs" rail when hidden (desktop) */
+.alt-lib-hide,.alt-rail{display:none}
+@media (min-width:980px){
+ .alt-shell .rep-layout{transition:grid-template-columns .32s ease}
+ .alt-shell .rep-layout.alt-noanim,.alt-shell .rep-layout.alt-noanim>*{transition:none!important}
+ .alt-shell .rep-layout:not(.alt-side-hidden){grid-template-columns:270px minmax(0,1fr)!important}
+ .alt-shell .rep-layout.alt-side-hidden{grid-template-columns:34px minmax(0,1fr)!important}
+ .alt-shell .rep-layout>.rep-library,.alt-shell .rep-layout>.alt-rep-sound,.alt-shell .rep-layout>.alt-rep-export{transition:opacity .2s ease;min-width:0;overflow:hidden}
+ .alt-shell .rep-layout.alt-side-hidden>.rep-library,.alt-shell .rep-layout.alt-side-hidden>.alt-rep-sound,.alt-shell .rep-layout.alt-side-hidden>.alt-rep-export{display:none!important}
+ .alt-shell .alt-lib-head{display:flex!important;align-items:center;justify-content:space-between;gap:8px}
+ .alt-lib-hide{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;padding:0;flex:none}
+ .alt-lib-hide:hover,.alt-rail:hover{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+ .alt-lib-hide svg,.alt-rail svg{width:14px;height:14px}
+ .alt-shell .rep-layout.alt-side-hidden .alt-rail{display:flex;grid-column:1;grid-row:1 / -1;align-self:stretch;flex-direction:column;align-items:center;gap:12px;padding:12px 0;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;min-height:180px}
+ .alt-rail span{writing-mode:vertical-rl;transform:rotate(180deg);font:600 .82rem var(--body);letter-spacing:.06em;color:var(--text)}
+}
+@media (min-width:980px){.alt-shell .alt-lib-head{justify-content:flex-start!important;gap:6px!important}.alt-shell .alt-lib-head .alt-lib-hide{margin-left:auto}}
+
+@media (min-width:980px){
+ .alt-shell .rep-layout.alt-side-hidden .alt-rail{display:flex;flex-direction:column;gap:0;padding:0;cursor:default;align-items:stretch}
+ .alt-rail>button{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 0;border:0;background:transparent;color:var(--muted);cursor:pointer;border-radius:12px}
+ .alt-rail>button:hover{color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,transparent)}
+ .alt-rail>button+button{border-top:1px solid var(--line);border-radius:0 0 12px 12px}
+ .alt-rail>button span{writing-mode:vertical-rl;transform:rotate(180deg);font:600 .82rem var(--body);letter-spacing:.06em;color:var(--text)}
+ .alt-rail>button svg{width:15px;height:15px}
+}
+@media (min-width:980px){.alt-rail>button.alt-rail-songs{flex:1;justify-content:flex-start;padding-top:14px;border-radius:12px}}
+
+/* renaming a free-timer row in History */
+.alt-hrename{cursor:text;border-bottom:1px dashed color-mix(in srgb,var(--muted) 60%,transparent)}
+.alt-hrename-in{font:inherit;color:inherit;width:100%;min-width:8em;border:0;border-bottom:2px solid var(--accent);background:transparent;padding:0;outline:none}
+/* renaming a free-timer row in History */
+.alt-hrename{cursor:text;border-bottom:1px dashed color-mix(in srgb,var(--muted) 60%,transparent)}
+.alt-hrename-in{font:inherit;color:inherit;width:100%;min-width:8em;border:0;border-bottom:2px solid var(--accent);background:transparent;padding:0;outline:none}

@@ -164,8 +164,12 @@ function renderChart(s){
   const num=document.createElement('span');num.className='rep-bar-num';num.textContent=String(i+1);b.append(num);
   if(bar.section||bar.ending){const section=document.createElement('span');section.className='rep-bar-section';section.textContent=(bar.section||'')+(bar.ending?' '+bar.ending+'.':'');b.append(section)}
   if(bar.repeatStart)b.classList.add('rep-rs');if(bar.repeatEnd||/repeat end/i.test(bar.note||''))b.classList.add('rep-re');
-  {const marks=[];if(bar.meter)marks.push(bar.meter);if(bar.segno)marks.push('𝄋');if(bar.coda)marks.push('𝄌');
-   if(marks.length){const mk=document.createElement('span');mk.className='rep-bar-marks';mk.textContent=marks.join(' ');b.append(mk)}
+  {// segno and coda are drawn (system fonts often lack the music symbols); the "To Coda" sign sits at the end of its measure
+   const SEGNO='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.6 6.6c-1.1-1.7-5.2-2-5.8.6-.7 3.1 6.8 3.9 5.8 7.8-.8 3-5.8 2.5-6.8.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 19.5 17 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="7.3" cy="10.2" r="1.4" fill="currentColor"/><circle cx="16.7" cy="13.8" r="1.4" fill="currentColor"/></svg>',CODA='<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="5.4" ry="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v19M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+   const toCoda=bar.coda&&s.bars.some((x,k)=>k>i&&x.coda);
+   const left=[];if(bar.meter)left.push('<span>'+bar.meter+'</span>');if(bar.segno)left.push(SEGNO);if(bar.coda&&!toCoda)left.push(CODA);
+   if(left.length){const mk=document.createElement('span');mk.className='rep-bar-marks'+(bar.section||bar.ending?' after-section':'');mk.innerHTML=left.join(' ');b.append(mk)}
+   if(toCoda){const tc=document.createElement('span');tc.className='rep-bar-tocoda';tc.title='To Coda';tc.innerHTML=CODA;b.append(tc)}
    const txt=[bar.jump?JUMPS[bar.jump]:'',bar.times?bar.times+'x':'',String(bar.note||'').replace(/(^|\s·\s)?Repeat end/i,'').trim()].filter(Boolean).join(' · ');
    if(txt){const nt=document.createElement('span');nt.className='rep-bar-note';nt.textContent=txt;b.append(nt)}}
   const wrap=document.createElement('span');wrap.className='rep-bar-chords'+(bar.chords.length<=1?' one':'');
@@ -380,7 +384,7 @@ function buildMixer(bus,reverb,levels,style){
   const ch=audio.createGain();ch.gain.value=levels[key]??1;let node=ch;
   for(const [type,f,g,q] of MIX_EQ[key]){const b=audio.createBiquadFilter();b.type=type;b.frequency.value=f;if(type!=='highpass')b.gain.value=g;b.Q.value=q;node.connect(b);node=b}
   node.connect(bus);bus.channels[key]=ch;
-  if(REVERB_SEND[key]){const sd=audio.createGain();sd.gain.value=REVERB_SEND[key]*(key==='piano'&&PEDAL[style]?1+.35*PEDAL[style]:1)*(key==='drums'&&KIT_FOR[style]==='kit_virt'&&samplesManifest&&samplesManifest.kit_virt?.5:1);node.connect(sd);sd.connect(rin)}   // the jazz kit already carries its room
+  if(REVERB_SEND[key]){const sd=audio.createGain();sd.gain.value=REVERB_SEND[key]*(key==='piano'&&PEDAL[style]?1+.35*PEDAL[style]:1)*(key==='drums'&&((KIT_FOR[style]==='kit_virt'&&samplesManifest&&samplesManifest.kit_virt)||KIT_FOR[style]==='kit_rustybrush')?.5:1);node.connect(sd);sd.connect(rin)}   // the jazz kit already carries its room
  }
 }
 function makeReverb(){
@@ -453,7 +457,7 @@ const BASS_REL={upright:.12,finger:.12,pick:.08,slap:.06,dub:.15};
 const STYLE_MASTER={afro:0.984,ballad:1.342,blues:1.073,boogaloo:0.963,bossa:0.894,even16:1.664,even8:1.1,funk:1.496,latin:0.744,partido:0.861,pop:0.908,reggae:1.227,rock:0.833,samba:1.181,secondline:1,slowblues:1.099,swing:0.685,swing2:0.759,waltz:0.813};   // every style plays at about the same overall loudness
 const STYLE_BASS_TRIM={afro:0.716,ballad:0.725,blues:0.69,boogaloo:0.582,bossa:0.922,even16:0.548,even8:0.573,funk:0.987,latin:0.942,partido:0.894,pop:0.95,reggae:0.532,rock:1.211,samba:0.72,secondline:0.468,slowblues:0.71,swing:0.925,swing2:0.977,waltz:0.659};
 let curBassTrim=1;
-const STYLE_DRUM_TRIM={afro:1.472,ballad:1.467,blues:1.477,boogaloo:1.526,bossa:2.233,even16:1.218,even8:1.646,funk:0.908,latin:1.624,partido:1.646,pop:1.834,reggae:1.838,rock:1.415,samba:1.308,secondline:1.176,slowblues:2.346,swing:2.514,swing2:2.557,waltz:2.269};   // starting-point mix, set from K-weighted loudness of each instrument alone   // set by measuring each instrument alone: jazz drums had been 15-18 dB under the piano
+const STYLE_DRUM_TRIM={afro:1.472,ballad:1.687,blues:1.477,boogaloo:1.526,bossa:2.233,even16:1.218,even8:1.646,funk:0.908,latin:1.624,partido:1.646,pop:1.834,reggae:1.838,rock:1.415,samba:1.308,secondline:1.176,slowblues:2.346,swing:2.514,swing2:2.557,waltz:2.269};   // starting-point mix, set from K-weighted loudness of each instrument alone   // set by measuring each instrument alone: jazz drums had been 15-18 dB under the piano
 let banks={},bankLoading={},samplesManifest=null,samplesDisabled=false,curKit='kit_rusty',curTrim=1,loadingSounds=false;
 function decodeAudio(ab){return new Promise((res,rej)=>{try{const p=audio.decodeAudioData(ab,res,rej);if(p&&typeof p.catch==='function')p.catch(rej)}catch(e){rej(e)}})}
 function loadBank(name){
@@ -526,7 +530,7 @@ function sampleTone(bk,m,start,dur,vel,bus,kind,opt){
 const KIT_PAN={hat:.3,open:.3,pedal:.26,hihat:.3,ride:-.26,bell:-.26,crash:-.34,tom:.12,stir:-.06,brush:-.04};
 // Virtuosity Drums (CC0) level per piece, matched to the Big Rusty the mix was balanced on (measured)
 const VIRT_TRIM={"kick": 0.44, "snare": 0.8, "rim": 1.45, "hat": 2.16, "open": 3.28, "pedal": 1.23, "ride": 1.77, "bell": 1.23, "crash": 0.66, "tom": 0.6};
-const CYMBALS=new Set(['hat','open','pedal','ride','bell','crash']);
+const CYMBALS=new Set(['hat','open','pedal','ride','bell','crash']),BRUSHED=new Set(['stir','snare','brush','rim']);
 function kitHit(key,vel,start,bus,gk){
  if(samplesDisabled)return false;
  const bk=banks[curKit],e=bk&&pickVar(bk,key);if(!e)return false;
@@ -537,7 +541,8 @@ function kitHit(key,vel,start,bus,gk){
  const g=audio.createGain();g.gain.value=Math.min(4,vel*gk*bk.gain*curTrim*vt/Math.max(e[2],.05))*Math.pow(10,(Math.random()*2-1)*.8/20);
  const piece=String(key).split(/[:_~]/)[0],pan=KIT_PAN[piece]||0;
  let head=g;
- if(isVirt&&CYMBALS.has(piece)&&audio.createBiquadFilter){const sh=audio.createBiquadFilter();sh.type='highshelf';sh.frequency.value=5500;sh.gain.value=-3;g.connect(sh);head=sh}   // cymbals a touch less bright
+ if(bk===banks.kit_rustybrush&&BRUSHED.has(piece)&&audio.createBiquadFilter){const sh=audio.createBiquadFilter();sh.type='highshelf';sh.frequency.value=4000;sh.gain.value=-4;g.connect(sh);head=sh}   // brushes: less hiss
+ else if(isVirt&&CYMBALS.has(piece)&&audio.createBiquadFilter){const sh=audio.createBiquadFilter();sh.type='highshelf';sh.frequency.value=5500;sh.gain.value=-3;g.connect(sh);head=sh}   // cymbals a touch less bright
  src.connect(g);
  if(pan&&audio.createStereoPanner){const pn=audio.createStereoPanner();pn.pan.value=pan;head.connect(pn);pn.connect(outNode(bus,'drums'))}
  else head.connect(outNode(bus,'drums'));
@@ -1280,9 +1285,9 @@ function scheduleBar(s,index,start,bpm,bus,nextIndex){
   segs.forEach((g,i)=>{if(i>0&&g.c&&!pat.some(x=>Math.abs(x[0]-g.b0)<.01))piano_(g,'jazz',g.b0,.9,.7,'grand')});
  }else if(mode==='ballad'){
   // ballad brushes as in reference ballad loops: a continuous stir on the snare, light taps on 2 and 4, a soft ride
-  for(const p of (bpm<48?[0,1,2,3]:[0,2]))kitHit('stir',hv(.08,.12),T(p)+jit(3),bus,.6);   // the stir recording lasts 2.6 s: below 48 bpm it is renewed every beat
+  for(const p of (bpm<48?[0,1,2,3]:[0,2]))kitHit('stir',hv(.08,.12),T(p)+jit(3),bus,.3);   // the brush circle: a quiet bed, not a wash   // the stir recording lasts 2.6 s: below 48 bpm it is renewed every beat
   if(bpm<70){   // slow ballads: the drummer fills the space with ghost taps and the hi-hat foot
-   for(const p of [.5,1.5,2.5,3.5])if(Math.random()<.6)snare(timeOf(p)+jit(5),hv(.12,.25),bus,'brush');
+   for(const p of [.5,1.5,2.5,3.5])if(Math.random()<.35)snare(timeOf(p)+jit(5),hv(.08,.25),bus,'brush');
    for(const p of [1,3])kitHit('pedal',hv(.22,.15),T(p)+jit(4),bus,.5);
   }
   for(const p of [0,1,2,3])ride(timeOf(p)+jit(5),hv(p%2?.26:.2,.15),bus,false);
@@ -1645,6 +1650,7 @@ function bind(){
  $('repDelete').addEventListener('click',async()=>{
   const s=current();if(!s||!await ppConfirm('Delete “'+s.title+'” from your library?','Delete'))return;
   stop();songs=songs.filter(x=>x.id!==s.id);selected=songs[0]?.id||null;save();renderSong();notice('Song deleted.');
+  try{const sig=(s=>[String(s.title||'').trim().toLowerCase(),String(s.artist||'').trim().toLowerCase(),(s.bars||[]).length,(s.bars||[]).slice(0,4).map(b=>(b.chords||[]).join(' ')).join(',')].join('|'))(s),del=JSON.parse(localStorage.getItem('pp-sync-deleted')||'[]');if(!del.includes(sig)){del.push(sig);localStorage.setItem('pp-sync-deleted',JSON.stringify(del.slice(-500)))}}catch(e){}   // remembered by its content, so sync removes it on every device
  });
  $('repSongCancel').addEventListener('click',()=>hideModal($('repSongDialog')));
  $('repSongForm').addEventListener('submit',e=>{
@@ -1790,6 +1796,8 @@ let earBus=null;
 // the PDF reader (pdf-import.js) adds its songs through the same path as Import
 window.ppImportSongs=function(list){const res=addImported(list);save();renderSong();presentImport({...res,errors:[]});return res};
 window.ppStyleOptions=function(){const el=$('repStyle');return el?[...el.options].map(o=>[o.value,o.textContent]):[['swing','Jazz Swing']]};
+// sync: reload the library after songs arrived from another device
+window.ppReloadSongs=()=>{songs=loadSongs();if(!songs.some(x=>x.id===selected))selected=songs[0]?.id||null;renderSong()};
 window.ppDebugBanks=()=>banks;   // for checking sound timing
 window.ppPiano={
  load(){if(samplesDisabled)return Promise.reject(new Error('samples disabled'));try{getAudio()}catch(e){return Promise.reject(e)}return loadBank('piano')},

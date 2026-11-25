@@ -36,3 +36,5 @@ These libraries are not affiliated with, and do not endorse, this app.
 - Vibraphone and Latin percussion (vibes.mp3, perc.mp3): Versilian Community Sample Library by Versilian Studios LLC, CC0 1.0 (public domain). See LICENSE-VCSL-CC0.txt.
 
 - Jazz drum kit (kit_virt.mp3): Virtuosity Drums by Versilian Studios LLC and Karoryfer Samples, CC0 1.0 (public domain) — https://github.com/sfzinstruments/virtuosity_drums. Overhead and mid mics, with some close mic on kick, snare and cross-stick.
+
+- Metronome tick (inside interface.js): the Woodblock recordings of the Versilian Community Sample Library (VCSL), CC0 1.0, trimmed to about 105 ms.

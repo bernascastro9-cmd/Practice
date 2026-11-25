@@ -218,3 +218,8 @@ body dialog.rep-dialog.pp-confirm button.pp-confirm-ok.danger{background:#d93636
 @media (max-width:640px){.pdf-review .pdf-meta{grid-template-columns:1fr 1fr}.pdf-review .pdf-meta label:first-child{grid-column:1/-1}.pdf-review .pdf-row{grid-auto-flow:row;grid-template-columns:repeat(2,minmax(0,1fr))}}
 .pdf-review .pdf-m.guess input{outline:2px solid #e8b33a;background:rgba(232,179,58,.1)}
 body dialog.rep-dialog.pdf-review{padding:22px 24px!important}
+
+/* segno / coda drawn as icons; the To Coda sign at the end of its measure */
+.rep-bar-marks svg,.rep-bar-tocoda svg{width:1.15em;height:1.15em;vertical-align:-.22em}
+.rep-bar-tocoda{position:absolute;right:8px;bottom:6px;font-size:.9rem;opacity:.85;line-height:1}
+.rep-bar-marks.after-section{left:auto;margin-left:0;transform:translateX(1.6em)}

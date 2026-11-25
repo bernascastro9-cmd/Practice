@@ -6,7 +6,8 @@ Web app de estudo de piano: um plano de exercícios com temporizador, quatro fer
 
 - **Plan:** a lista de exercícios do dia, com resumo e barra de progresso. Em **Edit** escolhe-se a ferramenta de cada exercício, ajustam-se os minutos e juntam-se pausas (**+ Add break**). Os exercícios feitos ficam marcados até ao fim do dia; ao abrir a app, ela começa no primeiro exercício ainda por fazer.
 - **Tools:** as quatro ferramentas, que se abrem a qualquer momento; a do exercício atual tem uma luz verde.
-- **History:** dias e minutos por exercício, sequência de dias (aguenta até 2 dias seguidos de descanso), tempo total, e exportação/importação do histórico.
+- **History:** dias e minutos por exercício (o temporizador livre conta também no histórico, como "Free timer"; clicando no nome dessa linha muda-se o nome lá mesmo, Enter guarda e Esc cancela), sequência de dias (aguenta até 2 dias seguidos de descanso), tempo total, e exportação/importação do histórico.
+- **Metrónomo:** um botão ao lado do Restart plan; ao carregar abre um painel com ▶/■ e o andamento (− / + / barra); toca gravações reais de um bloco de madeira (VCSL, CC0), encurtadas para soarem a tique de metrónomo, a alternar entre tic e tac, com o primeiro tempo de cada 4 mais forte; tem o seu próprio motor de áudio.
 - **Temporizador:** sempre visível numa barra no topo, com play/pausa e ✓ para dar o exercício por feito. Clicando no tempo, escreve-se lá mesmo um **temporizador livre** (Free timer) para uma coisa fora do plano: "15" são 15 minutos, "15:30" quinze minutos e meio; Enter (ou clicar fora) começa, Esc cancela; o exercício do plano fica onde estava, com o seu tempo, e o temporizador livre não marca nada como feito.
 
 ## Ferramentas
@@ -25,6 +26,7 @@ Web app de estudo de piano: um plano de exercícios com temporizador, quatro fer
 - **Editores e transposição:** o editor de compassos mostra os acordes como a grelha os mostra (transpostos) e guarda-os no tom da música; o editor da música abre uma música transposta no tom que se vê, e ao guardar esse passa a ser o tom.
 - **Barra do Fake Book:** quando o Play e o Stop de cima da grelha saem de vista, aparece por baixo do temporizador uma barra com a música, o compasso, o tempo, ▶/❚❚ e ■. A grelha desliza sozinha para o compasso que está a tocar.
 - **Apagar músicas:** botão vermelho, com confirmação.
+- **Esconder a lista de músicas:** no computador, o botão ‹ no cabeçalho da lista ("My songs") esconde a lista e o mixer, e a grelha alarga; fica uma barra estreita à esquerda, só com uma seta (›), que os traz de volta. Fica guardado.
 
 ## A banda
 
@@ -34,6 +36,15 @@ Web app de estudo de piano: um plano de exercícios com temporizador, quatro fer
 - **Bateria:** nos estilos de jazz e latinos, uma bateria de jazz (Virtuosity Drums) com várias gravações de cada prato, pratos ligeiramente suavizados e bombo, tarola e timbalões com menos ressonância e sala; nos estilos pop, rock, funk, reggae e even 16ths, a Big Rusty; escovas na ballad e no samba. Percussão latina (congas, bongós, cowbell, claves, guiro, shaker, agogô) no Latin Jazz, Boogaloo, Bossa, Samba, Partido Alto e Afro 12/8.
 - **Som:** reverb de sala, instrumentos colocados no estéreo, pequenas variações de afinação e volume em cada nota e pancada, compressão suave de toda a banda, e volumes acertados entre estilos (dentro de 1 LU).
 - **Mixer:** volume de cada instrumento e da banda inteira.
+
+## Sincronizar o computador e o telemóvel
+
+No separador **History**, o cartão **Sync across devices** liga a app à tua conta do GitHub: cria-se uma chave (token) só com a permissão **Gists** (o link no cartão abre a página certa do GitHub), cola-se no cartão e faz-se o mesmo no outro aparelho. A app guarda os dados num Gist secreto da tua conta ("Practice app sync") e sincroniza ao abrir, a cada 2 minutos, ao sair da página e com **Sync now**.
+
+- **Histórico:** cada aparelho guarda o seu registo; o histórico mostra a soma de todos, por isso nada é contado a dobrar.
+- **Músicas:** juntam-se as de todos os aparelhos (reconhecidas pelo título, artista e acordes, para não haver repetidas); uma música apagada num aparelho é apagada em todos.
+- **Plano:** fica a alteração mais recente.
+- A chave fica guardada só no browser de cada aparelho; **Disconnect** apaga-a desse aparelho.
 
 ## Teclado MIDI
 
@@ -56,7 +67,7 @@ Ver `samples/CREDITS.txt` e os ficheiros `LICENSE-*` em `samples/`:
 - Rhodes: jRhodes3d (CC BY-NC: só para uso não comercial; se a app for monetizada, retirar `samples/ep.mp3`).
 - Baixos elétricos (Black and Blue), bateria Big Rusty Drums, contrabaixo Meatbass: Karoryfer Samples (CC0).
 - Bateria de jazz: Virtuosity Drums, Versilian Studios e Karoryfer Samples (CC0).
-- Vibrafone e percussão latina: Versilian Community Sample Library (CC0).
+- Vibrafone, percussão latina e o bloco de madeira do metrónomo: Versilian Community Sample Library (CC0).
 - Órgão e outros sons de recurso: FluidR3 (MIT).
 
 ## Publicar no GitHub
